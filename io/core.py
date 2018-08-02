@@ -2,6 +2,37 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
+import random
+
+class Game(QDialog):
+    def __init__(self, QApp):
+        super().__init__()
+        self.QApp = QApp
+    def setupUi(self):
+        file = open('root.qss', 'r')
+        self.PSQWRootStyle = file.read()
+        file.close()
+        del file
+        self.setStyleSheet(self.PSQWRootStyle)
+        self.QGLRoot = QGridLayout()
+        self.setLayout(self.QGLRoot)
+        self.QLResult = QLabel(self)
+        self.QPBOption0 = QLabel(self)
+        self.QPBOption0.clicked.connect(self.updateUi)
+        self.QPBOption1 = QLabel(self)
+        self.QPBOption1.clicked.connect(self.updateUi)
+        self.QPBOption2 = QLabel(self)
+        self.QPBOption2.clicked.connect(self.updateUi)
+    def updateUi(self):
+        x = randint(1,3)
+        if x == 1:
+            self.QLResult = '[Win]'
+        elif x == 2:
+            self.QLResult = ''
+        else:
+            self.QLResult = '[Lose]'
+    def startUi(self):
+        self.show()
 
 class Root(QMainWindow):
     def __init__(self, QApp):
@@ -13,24 +44,24 @@ class Root(QMainWindow):
         file.close()
         del file
         self.setStyleSheet(self.PSQWRootStyle)
-        self.PLQuestions = [['<b>1/6</b><hr><h1>連絡帳</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>国語の教科書・ノート</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>国語ドリル</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>漢字ドリル</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>算数の教科書・ノート</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>算数ドリル</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>計算ドリル</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>理科の教科書・ノート</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>理科の実験道具</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>社会の教科書・ノート</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>社会の資料集</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>音楽の教科書</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>図工の教科書</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>図工の用意</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>水泳・体操の用意</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>ハンカチとティッシュ</h1>','ある','いらない'],
-                            ['<b>2/6</b><hr><h1>上履き</h1>','ある','いらない（火、水、木、金曜日）'],
-                            ['<b>2/6</b><hr><h1>給食の用意</h1>','ある','いらない']]
+        self.PLQuestions = [['<b>2/6</b><hr><h1>連絡帳</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>国語の教科書・ノート</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>国語ドリル</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>漢字ドリル</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>算数の教科書・ノート</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>算数ドリル</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>計算ドリル</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>理科の教科書・ノート</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>理科の実験道具</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>社会の教科書・ノート</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>社会の資料集</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>音楽の教科書</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>図工の教科書</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>図工の用意</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>水泳・体操の用意</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>ハンカチとティッシュ</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>上履き</h1>','ある','ない'],
+                            ['<b>2/6</b><hr><h1>給食の用意</h1>','ある','ない']]
         self.PLQuestionCounter = 0
         self.setWindowTitle('教材チェック')
         self.showMaximized()
@@ -56,6 +87,10 @@ class Root(QMainWindow):
         self.QLBTool.setText(self.PLQuestions[self.PLQuestionCounter][0])
         self.QPB0.setText(self.PLQuestions[self.PLQuestionCounter][1])
         self.QPB1.setText(self.PLQuestions[self.PLQuestionCounter][2])
+        if self.PLQuestionCounter == len(self.PLQuestions):
+            x = Game(self.QApp)
+            x.setupUi()
+            x.startUi()
     def updateUiQPB0(self):
         if self.PLQuestionCounter != len(self.PLQuestions) - 1:
             self.PLQuestionCounter += 1
