@@ -17,20 +17,7 @@ class Game(QDialog):
         self.QGLRoot = QGridLayout()
         self.setLayout(self.QGLRoot)
         self.QLResult = QLabel(self)
-        self.QPBOption0 = QLabel(self)
-        self.QPBOption0.clicked.connect(self.updateUi)
-        self.QPBOption1 = QLabel(self)
-        self.QPBOption1.clicked.connect(self.updateUi)
-        self.QPBOption2 = QLabel(self)
-        self.QPBOption2.clicked.connect(self.updateUi)
-    def updateUi(self):
-        x = randint(1,3)
-        if x == 1:
-            self.QLResult = '[Win]'
-        elif x == 2:
-            self.QLResult = ''
-        else:
-            self.QLResult = '[Lose]'
+        para = random.randrange("吉","大吉","小吉","中吉","中吉","小吉","吉","吉","吉",)
     def startUi(self):
         self.show()
 
@@ -83,14 +70,15 @@ class Root(QMainWindow):
     def startUi(self):
         self.show()
         self.updateUi()
-    def updateUi(self):
-        self.QLBTool.setText(self.PLQuestions[self.PLQuestionCounter][0])
-        self.QPB0.setText(self.PLQuestions[self.PLQuestionCounter][1])
-        self.QPB1.setText(self.PLQuestions[self.PLQuestionCounter][2])
-        if self.PLQuestionCounter == len(self.PLQuestions):
-            x = Game(self.QApp)
-            x.setupUi()
-            x.startUi()
+    def updateUi(self:)
+        self.setText(para)
+        # self.QLBTool.setText(self.PLQuestions[self.PLQuestionCounter][0])
+        # self.QPB0.setText(self.PLQuestions[self.PLQuestionCounter][1])
+        # self.QPB1.setText(self.PLQuestions[self.PLQuestionCounter][2])
+        # if self.PLQuestionCounter == len(self.PLQuestions):
+            # x = Game(self.QApp)
+            # x.setupUi()
+            # x.startUi()
     def updateUiQPB0(self):
         if self.PLQuestionCounter != len(self.PLQuestions) - 1:
             self.PLQuestionCounter += 1
