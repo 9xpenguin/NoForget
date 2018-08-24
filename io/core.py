@@ -2,6 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
+import random
 
 class Root(QMainWindow):
     def __init__(self, QApp):
@@ -68,10 +69,56 @@ class Root(QMainWindow):
         else:
             exit()
         self.updateUi()
+class Game(QMainWindow):
+    def __init__(self, QApp):
+        super().__init__()
+        self.QApp = QApp
+    def setupUi(self):
+        file = open('root.qss', 'r')
+        self.PSQWRootStyle = file.read()
+        file.close()
+        del file
+        self.setStyleSheet(self.PSQWRootStyle)
+        self.setWindowTitle('ゲーム')
+        self.showMaximized()
+        self.QGLRoot = QGridLayout()
+        self.QWTDummy = QWidget()
+        self.setCentralWidget(self.QWTDummy)
+        self.QWTDummy.setLayout(self.QGLRoot)
+        self.QLBGuide = QLabel(self)
+        self.QLBGuide.setObjectName('Guide')
+        self.QLBGuide.setText('じゃんけん')
+        self.QGLRoot.addWidget(self.QLBGuide, 1, 0)
+        self.QPBRock = QPushButton(self)
+        self.QPBRock.setObjectName('Rock')
+        self.QPBRock.setText('グー')
+        self.QPBRock.clicked.connect(self.updateUiClicked)
+        self.QGLRoot.addWidget(self.QPBRock, 2, 0)
+        self.QPBScissor = QPushButton(self)
+        self.QPBScissor.setObjectName('Scissor')
+        self.QPBScissor.setText('チョキ')
+        self.QPBScissor.clicked.connect(self.updateUiClicked)
+        self.QGLRoot.addWidget(self.QPBScissor, 2, 1)
+        self.QPBPaper = QPushButton(self)
+        self.QPBPaper.setObjectName('Paper')
+        self.QPBPaper.setText('パー')
+        self.QPBPaper.clicked.connect(self.updateUiClicked)
+        self.QGLRoot.addWidget(self.QPBPaper, 2, 2)
+    def startUi(self):
+        self.show()
+    def updateUiClicked(self):
+        if random.randint(0, 1) == 0:
+            self.QLBGuide('勝ち')
+        else:
+            self.QLBGuide('負け')
 QApp = QApplication(sys.argv)
 
 App = Root(QApp)
 App.setupUi()
 App.startUi()
+Game = Game(QApp)
+Game.setupUi()
+Game.startUi()
 
 sys.exit(QApp.exec_())
+me
